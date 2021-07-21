@@ -11,8 +11,8 @@ const router = require("express").Router();
 router.get("/", usuariosGet);
 router.post("/", usuariosPost);
 
-router.put("/", usuariosPut);
-router.patch("/", usuariosPatch);
-router.delete("/", usuariosDelete);
+router.put("/;id", usuariosPut);
+router.patch("/:id", usuariosPatch);
+router.delete("/:id", usuariosDelete);
 
 module.exports = router;
