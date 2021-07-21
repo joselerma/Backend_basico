@@ -22,7 +22,7 @@ const usuariosPut = (req = request, res = response) => {
 };
 
 const usuariosPatch = (req = request, res = response) => {
-  const { id } = req.query;
+  const { id } = req.params;
   res.status(201).json({
     peticion: "PATCH",
     msg: `Campo con id ${id}  actualizado`,
