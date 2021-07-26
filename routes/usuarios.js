@@ -11,10 +11,14 @@ const {
   validarEmail,
   validarId,
 } = require("../helpers/db-validators");
+
 const {
   fieldsValidator,
   passwordHash,
-} = require("../middlewares/field-validator");
+  validarToken,
+  validarAdminRol,
+  validarRoles,
+} = require("../middlewares");
 
 const router = require("express").Router();
 
@@ -25,11 +29,12 @@ router.post(
     check("nombre", "El nombre es requerido").not().isEmpty(),
     // check("password", "El password debe tener al menos 6 letras").isLength({
     //   min: 6,
-    // }),
+    // }),Custumize passwordHash para que al mismo tiempo hashe la password
     check("correo", "El correo debe ser un correo valido")
       .custom(validarEmail)
       .isEmail(),
     //check("rol", "El rol debe ser valido").isIn(["ADMIN_ROLE", "USER_ROLE"]),
+    //hicimos el cambio para chequear contra base de datos y no en un string
     check("rol", "El rol debe ser valido").custom(validarRole),
     fieldsValidator,
     passwordHash,
@@ -50,6 +55,9 @@ router.patch("/:id", usuariosPatch);
 router.delete(
   "/:id",
   [
+    validarToken,
+    // validarAdminRol,Este middleware solo permite el rol de admininistrador
+    validarRoles("ADMIN_ROLE", "VENTAS_ROLE"),
     check("id", "El id debe ser un id valido").isMongoId().custom(validarId),
     fieldsValidator,
   ],
