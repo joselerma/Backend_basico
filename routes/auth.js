@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { check } = require("express-validator");
-const { login } = require("../controllers/auth");
+const { login, googleSignIn } = require("../controllers/auth");
 const { fieldsValidator } = require("../middlewares/field-validator");
 
 router.post(
@@ -11,6 +11,14 @@ router.post(
     fieldsValidator,
   ],
   login
+);
+router.post(
+  "/google",
+  [
+    check("id_token", "El id_token es requerido").not().isEmpty(),
+    fieldsValidator,
+  ],
+  googleSignIn
 );
 
 module.exports = router;

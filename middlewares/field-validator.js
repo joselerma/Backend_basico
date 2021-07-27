@@ -15,7 +15,9 @@ const passwordHash = (req, res, next) => {
     if (password.length < 6)
       return res
         .status(400)
-        .json("La contraseña es muy corta debe tener al menos 6 caracteres");
+        .json({
+          msg: "La contraseña es muy corta debe tener al menos 6 caracteres",
+        });
     const salt = bcryptjs.genSaltSync();
     req.body.password = bcryptjs.hashSync(password, salt);
   }
