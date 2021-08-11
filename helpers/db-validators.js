@@ -1,5 +1,5 @@
 const Role = require("../models/role");
-const Usuario = require("../models/usuario");
+const { Usuario, Categoria, Producto } = require("../models");
 
 const validarRole = async (rol = "") => {
   const existeRole = await Role.findOne({ rol });
@@ -13,15 +13,31 @@ const validarEmail = async (correo = "") => {
   }
 };
 
-const validarId = async (id) => {
-  const existeId = await Usuario.findById(id);
+const validarIdUsuario = async (id) => {
+  const existeId = await Usuario.findOne({ _id: id, estado: true });
   if (!existeId) {
     throw new Error(`No existe un usuario con el id ${id}`);
+  }
+};
+
+const validarIdCategoria = async (id) => {
+  const existeId = await Categoria.findOne({ _id: id, estado: true });
+  if (!existeId) {
+    throw new Error(`No existe una categoria con el id ${id}`);
+  }
+};
+
+const validarIdProducto = async (id) => {
+  const existeId = await Producto.findOne({ _id: id, estado: true });
+  if (!existeId) {
+    throw new Error(`No existe un producto con el id ${id}`);
   }
 };
 
 module.exports = {
   validarRole,
   validarEmail,
-  validarId,
+  validarIdUsuario,
+  validarIdCategoria,
+  validarIdProducto,
 };

@@ -9,7 +9,7 @@ const {
 const {
   validarRole,
   validarEmail,
-  validarId,
+  validarIdUsuario,
 } = require("../helpers/db-validators");
 
 const {
@@ -45,7 +45,9 @@ router.post(
 router.put(
   "/:id",
   [
-    check("id", "El id debe ser un id valido").isMongoId().custom(validarId),
+    check("id", "El id debe ser un id valido")
+      .isMongoId()
+      .custom(validarIdUsuario),
     fieldsValidator,
     passwordHash,
   ],
@@ -58,7 +60,9 @@ router.delete(
     validarToken,
     // validarAdminRol,Este middleware solo permite el rol de admininistrador
     validarRoles("ADMIN_ROLE", "VENTAS_ROLE"),
-    check("id", "El id debe ser un id valido").isMongoId().custom(validarId),
+    check("id", "El id debe ser un id valido")
+      .isMongoId()
+      .custom(validarIdUsuario),
     fieldsValidator,
   ],
   usuariosDelete
